@@ -139,6 +139,15 @@ def post_messages(
         time.sleep(5)
 
 
+def dry_run(messages: list[str], activities: list[Activity]) -> None:
+    for message, activity in zip(messages, activities):
+        if is_already_posted(activity) or message == '':
+            continue
+
+        print(message)
+        update_record(activity)
+
+
 def main() -> None:
     log('Reading the config file.')
     config: dict[str, str] = {}
@@ -155,13 +164,16 @@ def main() -> None:
     )
     messages = create_messages(activities)
 
-    log('Posting to the discord channel.')
-    post_messages(
-        int(config['DISCORD_CHANNEL_ID']),
-        config['DISCORD_BOT_ACCESS_TOKEN'],
-        messages,
-        activities
-    )
+    if len(sys.argv) == 1 or sys.argv[1] != 'dry':
+        log('Posting to the discord channel.')
+        post_messages(
+            int(config['DISCORD_CHANNEL_ID']),
+            config['DISCORD_BOT_ACCESS_TOKEN'],
+            messages,
+            activities
+        )
+    else:
+        dry_run(messages, activities)
 
     log('Done!')
 
