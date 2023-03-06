@@ -165,7 +165,7 @@ def main() -> None:
     messages = create_messages(activities)
 
     if len(sys.argv) == 1 or sys.argv[1] != 'dry':
-        log('Posting to the discord channel.')
+        log('Posting to the Discord channel.')
         post_messages(
             int(config['DISCORD_CHANNEL_ID']),
             config['DISCORD_BOT_ACCESS_TOKEN'],
