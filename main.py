@@ -49,8 +49,10 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
         activity.work_title = work_info['title']
 
         # put a space between number and kanji
-        activity.work_season \
-            = f"{work_info['season_name_text'][:4]} {work_info['season_name_text'][4:]}"
+        if 'season_name_text' in work_info:
+            activity.work_season = f"{work_info['season_name_text'][:4]} {work_info['season_name_text'][4:]}"
+        else:
+            activity.work_season = "公開時期未定"
 
         # set url prioritizing the official one
         if work_info['official_site_url'] == '':
@@ -74,9 +76,15 @@ def create_messages(activities: list[Activity]) -> list[str]:
 
     for activity in activities:
         if activity.status == 'watching':
-            result.append(f'{activity.work_season}公開「{activity.work_title}」を観始めました。')
+            result.append(f'{activity.work_season}「{activity.work_title}」を観始めました。')
         elif activity.status == 'watched':
-            result.append(f'{activity.work_season}公開「{activity.work_title}」を観終えました。')
+            result.append(f'{activity.work_season}「{activity.work_title}」を観終えました。')
+        elif activity.status == 'wanna_watch':
+            result.append(f'{activity.work_season}「{activity.work_title}」を観たいと思っています。')
+        elif activity.status == 'on_hold':
+            result.append(f'{activity.work_season}「{activity.work_title}」の視聴を一時停止しました。')
+        elif activity.status == 'stop_watching':
+            result.append(f'{activity.work_season}「{activity.work_title}」の視聴を中止しました。')
         else:
             result.append('')
             continue
