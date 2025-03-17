@@ -61,7 +61,8 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
             activity.work_url = work_info['official_site_url']
 
         # make sure to have '/' at the end of the URL
-        if activity.work_url != '' and activity.work_url[-1] != '/':
+        # NOTE: no need '/' at the end of the URL if citing wikipedia_url
+        if activity.work_url != '' and activity.work_url != work_info['wikipedia_url'] and activity.work_url[-1] != '/':
             activity.work_url += '/'
 
         activity.status = activity_info['status']['kind']
