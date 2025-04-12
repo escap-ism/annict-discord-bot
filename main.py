@@ -57,6 +57,7 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
             episode_info = activity_info['episode']
 
             activity.work_id = work_info['id']
+            activity.work_title = work_info['title']
 
             activity.work_episode_title = episode_info['title']
             activity.work_episode_number = episode_info['number_text']
@@ -118,7 +119,7 @@ def create_messages(activities: list[Activity]) -> list[str]:
                 result.append('')
                 continue
         elif activity.action == 'create_record':
-            result.append(f'「{activity.work_episode_title}」{activity.work_episode_number} {activity.work_episode_title}を観ました。')
+            result.append(f'「{activity.work_title}」{activity.work_episode_number} {activity.work_episode_title} を観ました。')
             # TODO: result.append(f'[{activity.work_episode_rating_state}]{activity.work_episode_comment}') などで感想コメントも出力する
 
         if activity.work_url != '':
