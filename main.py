@@ -7,7 +7,7 @@ import time
 
 CONFIG_FILE_PATH = 'config'
 RECORD_FILE_PATH = 'record'
-MAX_NUM_RECORDS = 50
+MAX_NUM_RECORDS = 3
 
 
 def log(message: str) -> None:
@@ -134,12 +134,12 @@ def is_already_posted(activity: Activity) -> bool:
     with open(RECORD_FILE_PATH, 'r') as record_file:
         posted_activities = record_file.read().split('\n')
 
-    return f'{activity.work_id} {activity.status}' in posted_activities
+    return f'{activity.work_id} {activity.status if activity.status else activity.work_episode_id}' in posted_activities
 
 
 def update_record(activity: Activity) -> None:
     with open(RECORD_FILE_PATH, 'a') as record_file:
-        print(activity.work_id, activity.status, file=record_file)
+        print(activity.work_id, activity.status if activity.status else activity.work_episode_id, file=record_file)
 
     recorded_activities: list[str]
 
