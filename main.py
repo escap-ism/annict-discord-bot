@@ -28,8 +28,8 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
         'filter_user_id': user_id,
         'per_page': num_fetch,
         'sort_id': 'desc',
-        'fields': 'action,work.id,work.title,work.official_site_url,' \
-                  'work.wikipedia_url,work.season_name_text,status.kind',
+        'fields': 'action,work.id,work.title,' \
+                  'work.season_name_text,status.kind',
     }
     resp = requests.get('https://api.annict.com/v1/activities', params)
     resp_json = resp.json()
@@ -54,16 +54,7 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
         else:
             activity.work_season = "公開時期未定"
 
-        # set url prioritizing the official one
-        if work_info['official_site_url'] == '':
-            activity.work_url = work_info['wikipedia_url']
-        else:
-            activity.work_url = work_info['official_site_url']
-
-        # make sure to have '/' at the end of the URL
-        # NOTE: no need '/' at the end of the URL if citing wikipedia_url
-        if activity.work_url != '' and activity.work_url != work_info['wikipedia_url'] and activity.work_url[-1] != '/':
-            activity.work_url += '/'
+        activity.work_url = f'https://annict.com/works/{activity.work_id}'
 
         activity.status = activity_info['status']['kind']
 
