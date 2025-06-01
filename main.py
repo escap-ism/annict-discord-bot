@@ -7,7 +7,7 @@ import time
 
 CONFIG_FILE_PATH = 'config'
 RECORD_FILE_PATH = 'record'
-MAX_NUM_RECORDS = 3
+MAX_NUM_RECORDS = 50
 
 
 def log(message: str) -> None:
