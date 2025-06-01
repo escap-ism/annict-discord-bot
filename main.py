@@ -17,7 +17,6 @@ def log(message: str) -> None:
 class Activity:
     work_id: int
     work_title: str
-    work_subtitle: str
     work_episode_id: int
     work_episode_number: str
     work_episode_title: str
