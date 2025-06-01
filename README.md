@@ -1,13 +1,5 @@
 # annict-discord-bot
 
-**Note**: これは[annict-discord-bot](https://github.com/naskya/annict-discord-bot)のforkです。詳細はfork元のリポジトリとブログを参照してください。変更した点は以下の通り。
-
-- 放送シーズンの情報が未定である作品がリストに入っている場合、エラーが発生する点を修正。
-- 「見てる」「見た」の他に「見たい」「一時中断している」「視聴中止した」の視聴状況も追跡するようにした。
-- Discordの出力時、Annictの作品ページをリンクとして投稿させるようにした。
-
----
-
 [Annict](https://annict.com/) に記録したアニメの視聴記録（作品の視聴開始・終了のみ）を
 [Discord](https://discord.com) の特定のチャンネルに転送します。
 
