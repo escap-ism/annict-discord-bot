@@ -21,7 +21,6 @@ class Activity:
     work_episode_id: int
     work_episode_number: str
     work_episode_title: str
-    work_episode_rating_state: str
     work_episode_comment: str
     work_season: str
     work_url: str = ''
@@ -37,7 +36,7 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
         'sort_id': 'desc',
         'fields': 'work.id,work.title,work.season_name_text,' \
                   'action,status.kind,' \
-                  'record.comment,record.rating_state,' \
+                  'record.comment,' \
                   'episode.number_text,episode.title,episode.id',
     }
     resp = requests.get('https://api.annict.com/v1/activities', params)
@@ -64,7 +63,6 @@ def get_activities(user_id: int, access_token: str, num_fetch: int) -> list[Acti
             activity.work_episode_id = episode_info['id']
 
             activity.work_episode_comment = record_info['comment']
-            activity.work_episode_rating_state = record_info['rating_state']
 
             activity.work_url = f'https://annict.com/works/{activity.work_id}/episodes/{activity.work_episode_id}'
 
@@ -120,10 +118,12 @@ def create_messages(activities: list[Activity]) -> list[str]:
                 continue
         elif activity.action == 'create_record':
             result.append(f'「{activity.work_title}」{activity.work_episode_number} {activity.work_episode_title} を観ました。')
-            # TODO: result.append(f'[{activity.work_episode_rating_state}]{activity.work_episode_comment}') などで感想コメントも出力する
 
         if activity.work_url != '':
             result[-1] += f'\n{activity.work_url}'
+
+        if activity.action == 'create_record' and activity.work_episode_comment != '':
+            result[-1] += f'\n----------------------------------------------------\n{activity.work_episode_comment}'
 
     return result
 
