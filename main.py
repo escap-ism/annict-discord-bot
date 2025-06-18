@@ -122,7 +122,7 @@ def create_messages(activities: list[Activity]) -> list[str]:
             result[-1] += f'\n{activity.work_url}'
 
         if activity.action == 'create_record' and activity.work_episode_comment:
-            result[-1] += f'\n----------------------------------------------------\n{activity.work_episode_comment}'
+            result[-1] += f'\n----------------------------------------------------\n{activity.work_episode_comment}\n----------------------------------------------------'
 
     return result
 
