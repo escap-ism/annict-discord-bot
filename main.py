@@ -118,8 +118,8 @@ def create_messages(activities: list[Activity]) -> list[str]:
         elif activity.action == 'create_record':
             result.append(f'「{activity.work_title}」{activity.work_episode_number} {activity.work_episode_title} を観ました。')
 
-        if activity.work_url != '':
-            result[-1] += f'\n{activity.work_url}'
+        # if activity.work_url != '':
+        #     result[-1] += f'\n{activity.work_url}'
 
         if activity.action == 'create_record' and activity.work_episode_comment:
             result[-1] += f'\n----------------------------------------------------\n{activity.work_episode_comment}\n----------------------------------------------------'
